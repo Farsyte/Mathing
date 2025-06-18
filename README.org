@@ -1,0 +1,59 @@
+* Mathing:
+Tinkering with Math in C++
+
+** Project Goals
+
+Develop a collection of implementations for various mathematical
+constructs that can be used to express some useful mathematical ideas
+and formulas in C++ clearly and simply.
+
+Requirement Zero for this project, and all projects, is that the
+results should be correct (for some appropriate definition of the word
+"correct" -- see IEEE 754 and decades of discussions around numerical
+analysis, if you want to get picky).
+
+Beyond that, the most important consideration is that the code using
+these facilities should be as clean and simple as possible, allowing
+the reader to focus on the high level operation being executed.
+
+Nearly important is that the process used to generate this collection
+is clear, and documented, and largely in line with the "old school"
+coding methods.
+
+One of the old coding goals drilled into me was that the most
+important audience for the code are future engineers reading it. Code
+that can not be understood and maintained has no value.
+
+Less important but still a goal is to have the code be "reasonably"
+performant. The intent is to use profiling tools to monitor the hot
+spots in the code, and make reasonable changes.
+
+** Tools
+
+*** Compiler
+
+In keeping with "old school" this project uses GCC, and specifies
+usage of the 2003 version of C++ (and the 1999 version of C, if
+the project has C files). All warnings are enabled, and should be
+resolved by clening the code (not by trickery) before integrating
+back into the main branch.
+
+Flags:
+
+    -std=c99 -std=c++03 -Wall -Wextra -Wpedantic -Weffc++
+
+Note that it may be necessary to filter out -Weffc++ warnings
+triggered by the standard library headers. See GCC docs.
+
+*** Build System
+
+Since the flavor here is "old school" I will be using GNU Make, which
+means wrangling Makefiles. I'll keep the Stupid Make Tricks to a
+minimum, but there will be some.
+
+*** Editor
+
+Generally I use EMACS, and sometimes VI. This has little to no impact
+on the project, aside from the obvious fact that I'm not including the
+metadata that would be kept by products from Microsoft, Jetbrains, or
+other IDE vendors.
