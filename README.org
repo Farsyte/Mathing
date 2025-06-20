@@ -33,14 +33,13 @@ spots in the code, and make reasonable changes.
 *** Compiler
 
 In keeping with "old school" this project uses GCC, and specifies
-usage of the 2003 version of C++ (and the 1999 version of C, if
-the project has C files). All warnings are enabled, and should be
-resolved by clening the code (not by trickery) before integrating
+usage of the 2003 C++ standard. All warnings are enabled, and should
+be resolved by clening the code (not by trickery) before integrating
 back into the main branch.
 
 Flags:
 
-    -std=c99 -std=c++03 -Wall -Wextra -Wpedantic -Weffc++
+    -std=c++03 -Wall -Wextra -Wpedantic -Weffc++
 
 Note that it may be necessary to filter out -Weffc++ warnings
 triggered by the standard library headers. See GCC docs.
