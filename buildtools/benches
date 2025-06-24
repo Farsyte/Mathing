@@ -1,0 +1,23 @@
+#!/bin/bash -
+set -euo pipefail
+set -x
+
+for opt in 0 1 2 3 fast
+do
+    m -j O=$opt cleanest
+done
+
+for opt in 0 1 2 3 fast
+do
+    m -j O=$opt test.exe bench.exe untest unbench
+done
+
+for opt in 0 1 2 3 fast
+do
+    m -j O=$opt test
+done
+
+for opt in 0 1 2 3 fast
+do
+    ru m -j O=$opt bench
+done

@@ -1,0 +1,14 @@
+#!/bin/bash -
+#
+# Start "emacs" in the Mathing project.
+
+set -euo pipefail       # Informal Bash Strict Mode.
+# set -x                # uncomment to print commands as executed.
+
+sscr=$(realpath -s "$0")
+sdir=${sscr%/*}
+tdir=${sdir%/*}
+
+cd "${tdir}"
+emacs "$@" </dev/null >&/dev/null &
+exit 0

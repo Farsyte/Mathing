@@ -1,0 +1,46 @@
+* Mathing: Tinkering with Math in C++
+
+** Project Goals
+
+General Purpose: Develop implementations for mathematical constructs
+allowing expression of some useful mathematical ideas and formulas in
+C++ in clear and simple ways.
+
+Requirement One: the results are correct.
+
+Requirement Two: the code is understandable.
+
+Bonus Goal: the code is performant.
+
+** Tools
+
+*** Language
+
+This project uses ISO 14882:2003 -- the version of the C++ Programming
+Language standard that was current two decades ago.
+
+Selection of a standard prior to the major 2011 improvements is
+intended to encourage (force) the project to avoid trying to
+build interfaces that would naturally want C++11 features.
+
+*** Compiler
+
+This project uses the GCC compiler suite, which includes the
+compiler, gdb debugger, gprof profiler, and gcov coverage
+tooling. It also uses clang-format from the Clang suite.
+
+All compiler warnings are turned on. While the build does not
+treat warnings as errors, code is not complete until all warnings
+have been resolved while meeting the requirement for clarity.
+
+*** Build System
+
+This project uses make to control the build process, giving us
+complete control over our project organization, and over what
+tasks we want to automate within the build system.
+
+*** Development Environment
+
+This project does not require use of any particular Integrated
+Devlopment Environment.
+

@@ -1,0 +1,10 @@
+#!/bin/bash -
+#
+# Script to intercept "makeindex" commands,
+# to discard the output and the exit status,
+# allowing us to use the Makefile in doc/latex
+# after running Doxygen.
+
+/usr/bin/makeindex "$@" >& /dev/null
+
+exit 0
