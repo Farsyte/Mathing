@@ -1,0 +1,13 @@
+#!/bin/bash -
+#
+# Start a "make" in the Mathing project.
+
+set -euo pipefail       # Informal Bash Strict Mode.
+# set -x                # uncomment to print commands as executed.
+
+sscr=$(realpath -s "$0")
+sdir=${sscr%/*}
+tdir=${sdir%/*}
+
+cd "${tdir}"
+exec make -C "${tdir}" -f "${sdir}/GNUmakefile" "$@"
