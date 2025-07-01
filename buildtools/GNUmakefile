@@ -6,10 +6,10 @@
 # ================================================================
 # Variables frequently modified on the "make" command line
 
-# Optimizer Level. Defaults to "fast but may be hard to debug."
-# Use "O=g" to be "debugging support but maybe not as fast."
+# Optimizer Level. Default to "g" for -Og, "fast but debuggable"
+# See GCC documentation for available optimization levels.
 
-O               := 2
+O               := g
 
 Q               := @
 I               := -
@@ -165,7 +165,7 @@ publish:        ${PUBLISH}                                      ; $T
 # TARGET format -- re-style all the C++ source files
 format:
 	$Q $P "[FORMAT] using %s\n" "${FORMAT}"
-	$Q ${FORMAT} ${FMTFLAGS} ${INCLUDE.hh} ${LIBRARY.cc} ${TEST.cc}
+	$Q ${FORMAT} ${FMTFLAGS} ${INCLUDE.hh} ${LIBRARY.cc} ${TEST.cc} ${BENCH.cc}
 
 # TARGET library.o -- (re)build the object files for the library.
 library.o:      ${LIBRARY.o}                                    ; $T
@@ -257,6 +257,7 @@ include ${wildcard .*.mak} /dev/null
 ${LIBRARY.o}:     ${OBJECTS.d}%.o:           ${SOURCE.d}%.cc
 	$D ${OBJECTS.d}
 	$D ${LIBRARY.d}
+	$R "$<".{gcno,gcda}
 	$P "[LIB] %s\n" "$@"
 	$Q ${DEPEND} ${SOURCE.d}$*.cc | sed '1s|^$*\.o: |$@: |' > ${OBJECTS.d}$*.d
 	$Q ${DEPEND} ${SOURCE.d}$*.cc | sed '1s|^$*\.o: |${LIBRARY.a}: |' > ${LIBRARY.d}lib${LIBNAME}--$*.d

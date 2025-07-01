@@ -1,27 +1,62 @@
 #include "exception.hh"
+#include "str.hh"
 
-Exception::Exception() { }
-IndexRange::IndexRange(IndexRange const &e)
-        : Exception()
-        , ix(e.ix)
-        , lo(e.lo)
-        , hi(e.hi)
+std::string str(                     //
+        const Exception        &e,   //
+        int                     w,   //
+        int                     p,   //
+        std::ios_base::fmtflags f)
 {
+    return e.str(w, p, f);
 }
 
-IndexRange::IndexRange(int i, int l, int h)
-        : ix(i)
-        , lo(l)
-        , hi(h)
+std::ostream &operator<<(     //
+        std::ostream    &s,   //
+        Exception const &e)
 {
+    // NOTE: not passing along formatting from s,
+    // or "cout << e" looks bad.
+    return s << str(e);
 }
 
-std::string IndexRange::str(void) const
+std::string IndexRange::str(         //
+        int                     w,   //
+        int                     p,   //
+        std::ios_base::fmtflags f)   //
+        const
 {
     std::ostringstream os;
-    os << "IndexRange value " << ix
-       << ((lo > hi) ? " outside (empty!) inclusive range "
-                     : " outside inclusive range ")
-       << "(" << lo << " .. " << hi << ")" << std::endl;
+    os << "IndexRange exception: value " << ix
+       << ((lo > hi)                                        //
+                   ? " outside (empty!) inclusive range "   //
+                   : " outside inclusive range ")           //
+       << "(" << lo << " .. " << hi << ")";
+
+    (void)w;   // ignored, or "cout << e" looks bad.
+    (void)p;   // ignored, or "cout << e" looks bad.
+    (void)f;   // ignored, or "cout << e" looks bad.
+
+    return os.str();
+}
+
+std::string RangeValue::str(         //
+        int                     w,   //
+        int                     p,   //
+        std::ios_base::fmtflags f)   //
+        const
+{
+    std::ostringstream os;
+
+    os << "RangeValue exception: "
+       << "Value not within" << ((lo <= hi) ? "" : " inclusive")
+       << ((lo != hi) ? "" : " degenerate")
+       << ((lo >= hi) ? "" : " empty") << " range:"
+       << "\n  minimum:  " << lo << "\n  observed: " << val
+       << "\n  maximum:  " << hi;
+
+    (void)w;   // ignored, or "cout << e" looks bad.
+    (void)p;   // ignored, or "cout << e" looks bad.
+    (void)f;   // ignored, or "cout << e" looks bad.
+
     return os.str();
 }

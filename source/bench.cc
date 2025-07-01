@@ -2,14 +2,12 @@
 
 #include "debug.hh"
 #include "str.hh"
+#include "exception.hh"
 
+#include <algorithm>
 #include <iomanip>
 #include <map>
 #include <vector>
-
-#include <cassert>
-#include <cmath>
-#include <cstdlib>
 
 using std::map;
 using std::vector;
@@ -22,27 +20,15 @@ class BenchResults;
 static map<string, BenchResults *> op_results;
 static vector<string>              op_order;
 
-extern "C" {
-    static int compare_nsea(   //
-            void const *p1,    //
-            void const *p2)
-    {
-        double v1 = *(double *)p1;
-        double v2 = *(double *)p2;
-        if (v1 < v2)
-            return -1;
-        if (v1 > v2)
-            return +1;
-        return 0;
-    }
+template<typename T>
+T clip(const T &lo, const T &hi, const T &v)
+{
+    if (v < lo)
+        return lo;
+    if (v > hi)
+        return hi;
+    return v;
 }
-
-#define SWAP(a, b) \
-    do { \
-        double t = a; \
-        a = b; \
-        b = t; \
-    } while (0)
 
 class BenchResults {
   public:
@@ -54,20 +40,10 @@ class BenchResults {
         return new BenchResults(op, nsea);
     }
 
-    void update(double nsea)
-    {
-        if (min_of_nsea > nsea)
-            min_of_nsea = nsea;
-        if (max_of_nsea < nsea)
-            max_of_nsea = nsea;
-        list_of_nsea.push_back(nsea);
-    }
+    void   update(double nsea) { list_of_nsea.push_back(nsea); }
 
-    double percentile_of_msea(double pct = 50.0)
+    double percentile_of_nsea(int pct = 50)
     {
-        assert(0 <= pct);
-        assert(pct <= 100.0);
-
         int size = (unsigned long)list_of_nsea.size();
         if (size < 1)
             return 0.0;
@@ -76,53 +52,46 @@ class BenchResults {
         if (size == 1)
             return list_of_nsea[0];
 
-        double pix = (size - 1) * 0.01 * pct;
-        int    pixf = pix;
-        int    pixc = pix + 1;
-        double fr = pix - pixf;
+        int    maxi = size - 1;
 
-        assert(0 <= pixf);
-        assert(pixf < pixc);
-        assert(pixc < size);
+        double frac = pct / 100.0;
 
-        assert(0.0 <= fr);
-        assert(fr <= 1.0);
+        double di = frac * maxi;
+        int    i1 = clip(0, maxi, (int)di);
+        int    i2 = clip(0, maxi, i1 + 1);
 
-        double rf = list_of_nsea[pixf];
-        double rc = list_of_nsea[pixc];
-        double result = rc + (rf - rc) * fr;
+        double fr = clip(0.0, 1.0, di - i1);
+
+        double v1 = list_of_nsea[i1];
+        double v2 = list_of_nsea[i2];
+        double result = v1 + (v2 - v1) * fr;
 
         return result;
     }
 
-    void sort_msea()
+    void sort_nsea()
     {
-        int size = (int)list_of_nsea.size();
-
-        qsort(&list_of_nsea[0],
-              size,
-              sizeof(list_of_nsea[0]),
-              compare_nsea);
+        std::sort(list_of_nsea.begin(), list_of_nsea.end());
     }
 
-    static ostream &report_full_header(          //
-            ostream           &os,               //
+    static ostream &report_full_header(        //
+            ostream           &os,             //
             std::string const &tblname)
     {
-        os << "#+tblname: " << tblname << "\n"   //
-           << "| " << str("1st", 8)              //
-           << " | " << str("min", 8)             //
-           << " | " << str("25%", 8)             //
-           << " | " << str("50%", 8)             //
-           << " | " << str("75%", 8)             //
-           << " | " << str("max", 8)             //
-           << " | " << str("operation", -32) << " |\n"
-           << "|-" << str("--------", 8)         //
-           << "-|-" << str("--------", 8)        //
-           << "-|-" << str("--------", 8)        //
-           << "-|-" << str("--------", 8)        //
-           << "-|-" << str("--------", 8)        //
-           << "-|-" << str("--------", 8)        //
+        os << "#+tblname: " << tblname         //
+           << "\n"                             //
+           << "| " << str("min", 8)            //
+           << " | " << str("25%", 8)           //
+           << " | " << str("50%", 8)           //
+           << " | " << str("75%", 8)           //
+           << " | " << str("max", 8)           //
+           << " | " << str("operation", -32)   //
+           << " |\n"
+           << "|-" << str("--------", 8)       //
+           << "-|-" << str("--------", 8)      //
+           << "-|-" << str("--------", 8)      //
+           << "-|-" << str("--------", 8)      //
+           << "-|-" << str("--------", 8)      //
            << "-|-" << str("--------------------------------", -32)
            << "-|\n";
         return os;
@@ -131,29 +100,27 @@ class BenchResults {
     ostream &report_full(   //
             ostream &os)
     {
-        sort_msea();
+        sort_nsea();
 
-        int size = list_of_nsea.size();
-        for (int i = 1; i < size; ++i) {
-            assert(list_of_nsea[i - 1] <= list_of_nsea[i]);
-        }
+        double lo = percentile_of_nsea(0);
+        double q1 = percentile_of_nsea(25);
+        double q2 = percentile_of_nsea(50);
+        double q3 = percentile_of_nsea(75);
+        double hi = percentile_of_nsea(100);
 
-        double q1 = percentile_of_msea(25);
-        double q2 = percentile_of_msea(50);
-        double q3 = percentile_of_msea(75);
+        // RangeValue::check(0, q1, lo);
+        // RangeValue::check(lo, q2, q1);
+        // RangeValue::check(q1, q3, q2);
+        // RangeValue::check(q2, hi, q3);
 
-        assert(min_of_nsea <= q1);
-        assert(q1 <= q2);
-        assert(q2 <= q3);
-        assert(q3 <= max_of_nsea);
-
-        os << "| " << str(initial_nsea, 8, 3)   //
-           << " | " << str(min_of_nsea, 8, 3)   //
-           << " | " << str(q1, 8, 3)            //
-           << " | " << str(q2, 8, 3)            //
-           << " | " << str(q3, 8, 3)            //
-           << " | " << str(max_of_nsea, 8, 3)   //
-           << " | " << str(op, -32) << " |" << endl;
+        os << "| " << str(lo, 8, 3)    //
+           << " | " << str(q1, 8, 3)   //
+           << " | " << str(q2, 8, 3)   //
+           << " | " << str(q3, 8, 3)   //
+           << " | " << str(hi, 8, 3)   //
+           << " | "                    //
+           // << "[" << str(list_of_nsea.size(), 4) << "] "   //
+           << str(op, -32) << " |" << endl;
         return os;
     }
 
@@ -162,34 +129,32 @@ class BenchResults {
   public:   // private:
 
     string const   op;
-    double         initial_nsea;
-    double         min_of_nsea;
-    double         max_of_nsea;
-
     vector<double> list_of_nsea;
 
     BenchResults(               //
             string const &op,   //
             double const  nsea)
             : op(op)
-            , initial_nsea(nsea)
-            , min_of_nsea(nsea)
-            , max_of_nsea(nsea)
             , list_of_nsea()
     {
+        list_of_nsea.push_back(nsea);
     }
 };
+
+bool Bench::log_disable = true;
+void Bench::enable() { log_disable = false; }
 
 void Bench::log_result(     //
         string const &op,   //
         double        nsea)
 {
-    BenchResults *br = op_results[op];
+    if (log_disable)
+        return;
 
+    BenchResults *br = op_results[op];
     if (!br) {
-        br = BenchResults::factory(op, nsea);
-        op_order.push_back(br->op);
-        op_results[br->op] = br;
+        op_order.push_back(op);
+        op_results[op] = BenchResults::factory(op, nsea);
     } else {
         br->update(nsea);
     }

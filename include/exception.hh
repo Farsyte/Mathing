@@ -5,24 +5,37 @@
 #include <sstream>
 
 #include "debug.hh"
+#include "str.hh"
 
 class Exception {
   public:
 
-    Exception();
+    Exception() { }
     virtual ~Exception() { }
-    virtual std::string str() const = 0;
+
     operator std::string(void) const { return str(); }
+
+    virtual std::string str(        //
+            int w = 8, int p = 3,   //
+            std::ios_base::fmtflags f = std::ios_base::fixed) const = 0;
 };
 
-inline std::string   str(Exception const &e) { return e.str(); }
+extern std::ostream &operator<<(    //
+        std::ostream    &s,         //
+        Exception const &e);
 
-inline std::ostream &operator<<(std::ostream &s, Exception const &e)
-{
-    return s << str(e);
-}
+extern std::string   str(           //
+        const Exception &e,       //
+        int              w = 8,   //
+        int p = 3,                //
+        std::ios_base::fmtflags f = std::ios_base::fixed);
 
 class IndexRange : public Exception {
+  private:
+
+    IndexRange(IndexRange const &e);
+    IndexRange &operator=(IndexRange const &that);
+
   public:
 
     const int ix;
@@ -31,25 +44,70 @@ class IndexRange : public Exception {
 
   public:
 
-    IndexRange(IndexRange const &e);
+    IndexRange(int ix, int lo, int hi)
+            : ix(ix)
+            , lo(lo)
+            , hi(hi)
+    {
+    }
 
-    IndexRange(int i, int l, int h);
+    virtual std::string str(        //
+            int w = 8, int p = 3,   //
+            std::ios_base::fmtflags f = std::ios_base::fixed) const;
 
-    virtual std::string str(void) const;
-
-    static void         check(int ix, int lo, int hi)
+    static int          check(int ix, int lo, int hi)
     {
         if ((ix < lo) || (ix > hi)) {
             throw IndexRange(ix, lo, hi);
         }
+        return 0;
+    }
+};
+
+class RangeValue : public Exception {
+  private:
+
+    RangeValue &operator=(RangeValue const &that);
+    RangeValue(RangeValue const &e);
+
+  public:
+
+    const double lo;
+    const double hi;
+    const double val;
+
+  public:
+
+    RangeValue(                 //
+            const double lo,    //
+            const double hi,    //
+            const double val)   //
+            : lo(lo)
+            , hi(hi)
+            , val(val)
+    {
+    }
+
+    virtual std::string str(             //
+            int w = 8, int p = 3,        //
+            std::ios_base::fmtflags f = std::ios_base::fixed) const;
+
+    static int          check(           //
+            const double lo,    //
+            const double hi,    //
+            const double val)   //
+    {
+        if ((val < lo) || (val > hi)) {
+            throw RangeValue(lo, hi, val);
+        }
+        return 0;
     }
 };
 
 class Permission : public Exception {
   public:
 
-    virtual std::string str(void) const
-    {
-        return "Associated storage is Read-Only.";
-    }
+    virtual std::string str(        //
+            int w = 8, int p = 3,   //
+            std::ios_base::fmtflags f = std::ios_base::fixed) const;
 };

@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "timer.hh"
+
 /** Query an elapsed time timer.
  *
  * This function returns a value representing the number
@@ -15,17 +17,20 @@ class Bench {
 
     double            nr;
 
-    clock_t           t0;
-    clock_t           tF;
-    clock_t           dt;
+    Timer             t;
+
+    double            dt_sec;
 
     double            ns_each;
 
-    static void       log_result(          //
+    void              log_result(                 //
             std::string const &op,   //
             double             nsea);
 
   public:
+
+    static bool log_disable;
+    static void enable();
 
     static void dump_log(            //
             std::ostream      &os,   //
@@ -38,11 +43,8 @@ class Bench {
             : os(os)
             , op(op)
             , nr((double)N * (double)R)
-
-            , t0(-1)
-            , tF(-1)
-            , dt(-1)
-
+            , t()
+            , dt_sec(-1)
             , ns_each(-1)
     {
         restart();
@@ -50,24 +52,22 @@ class Bench {
 
     void restart()
     {
-        tF = -1;
-        dt = -1;
-        t0 = clock();
+        t.restart();
+        dt_sec = -1;
     }
 
-    clock_t elapsed()
+    double elapsed_sec()
     {
-        if (dt < 0) {
-            tF = clock();
-            dt = tF - t0;
+        if (dt_sec < 0) {
+            dt_sec = t.elapsed_sec();
         }
-        return dt;
+        return dt_sec;
     }
 
     double nsea()
     {
         if (ns_each < 0) {
-            ns_each = elapsed() * 1.0e9 / (CLOCKS_PER_SEC * nr);
+            ns_each = elapsed_sec() * 1.0e9 / nr;
         }
         return ns_each;
     }

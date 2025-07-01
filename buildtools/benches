@@ -1,23 +1,39 @@
 #!/bin/bash -
-set -euo pipefail
-set -x
+#
+# Run benchmarks in Mathing
 
-for opt in 0 1 2 3 fast
-do
-    m -j O=$opt cleanest
-done
+set -euo pipefail       # Informal Bash Strict Mode.
+# set -x                # uncomment to print commands as executed.
 
-for opt in 0 1 2 3 fast
-do
-    m -j O=$opt test.exe bench.exe untest unbench
-done
+sscr=$(realpath -s "$0")
+sdir=${sscr%/*}
+tdir=${sdir%/*}
 
-for opt in 0 1 2 3 fast
-do
-    m -j O=$opt test
-done
+cd "${tdir}"
 
-for opt in 0 1 2 3 fast
+for opt in 0 1 g 2 3 fast
 do
-    ru m -j O=$opt bench
+    m -j O="${opt}" cleanest &
 done
+wait
+
+for opt in 0 1 g 2 3 fast
+do
+    m -j O="${opt}" test.exe bench.exe untest unbench &
+done
+wait
+
+for opt in 0 1 g 2 3 fast
+do
+    m -j O="${opt}" test &
+done
+wait
+
+# Record test coverage in the source trees
+# for the test runs at -O0
+m -j O=0 coverage
+
+for opt in 0 1 g 2 3 fast
+do
+    m J= O="${opt}" bench 2>&1 | tee doc/bench-O"${opt}".log
+done 2>&1 | tee doc/benchmarks.log
