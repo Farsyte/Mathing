@@ -34,7 +34,198 @@ runs is generated.
 
 ** Incorporate Benchmark Results
 
-Insert "benchmarks.log" here after running some benchmarks.
+make: Entering directory '/home/glimes/Projects/Mathing'
+[RUN BENCHMARK] mat
+
+Benchmarking with N=1000
+All durations reported in ns per element.
+Each matrix uses 8000000 bytes of storage.
+Target time per pass: 5 seconds.
+Target time for run: 30 seconds.
+
+pin: set affinity to cpu 0
+For R=100, T=1.72; want T=5, will use R=291
+
+Benchmark ending after 6 repetitions of the suite;
+Total elapsed time: 34 seconds
+
+#+begin_src python :session :results none
+  #                     min       25%       50%       75%       max   operation                       
+  #                --------  --------  --------  --------  --------   --------------------------------
+  tbl_O0  .append([  13.731,   13.838,   13.921,   13.926,   13.929, "Mat init with rand()"          ])
+  tbl_O0  .append([   0.154,    0.154,    0.157,    0.157,    0.161, "Mat = Mat"                     ])
+  tbl_O0  .append([   1.746,    1.752,    1.754,    1.758,    1.761, "Mat += Mat"                    ])
+  tbl_O0  .append([   1.747,    1.756,    1.759,    1.760,    1.761, "Mat -= Mat"                    ])
+  tbl_O0  .append([   2.075,    2.107,    2.126,    2.143,    2.150, "Mat = Mat + Mat"               ])
+  tbl_O0  .append([   2.095,    2.099,    2.099,    2.141,    2.150, "Mat = Mat - Mat"               ])
+  tbl_O0  .append([   1.570,    1.576,    1.576,    1.583,    1.587, "Mat *= Num"                    ])
+  tbl_O0  .append([   1.569,    1.573,    1.576,    1.580,    1.586, "Mat /= Num"                    ])
+  tbl_O0  .append([   2.675,    2.679,    2.685,    2.691,    2.701, "RVec += RVec * Mat"            ])
+  tbl_O0  .append([   2.651,    2.654,    2.656,    2.657,    2.657, "CVec += Mat * CVec"            ])
+#+end_src
+
+[PROFILE BENCHMARK] mat
+make: Leaving directory '/home/glimes/Projects/Mathing'
+make: Entering directory '/home/glimes/Projects/Mathing'
+[RUN BENCHMARK] mat
+
+Benchmarking with N=1000
+All durations reported in ns per element.
+Each matrix uses 8000000 bytes of storage.
+Target time per pass: 5 seconds.
+Target time for run: 30 seconds.
+
+pin: set affinity to cpu 0
+For R=1000, T=4.93; want T=5, will use R=1014
+
+Benchmark ending after 6 repetitions of the suite;
+Total elapsed time: 35 seconds
+
+#+begin_src python :session :results none
+  #                     min       25%       50%       75%       max   operation                       
+  #                --------  --------  --------  --------  --------   --------------------------------
+  tbl_O1  .append([   2.649,    2.651,    2.653,    2.816,    2.817, "Mat init with rand()"          ])
+  tbl_O1  .append([   0.147,    0.148,    0.148,    0.149,    0.150, "Mat = Mat"                     ])
+  tbl_O1  .append([   0.295,    0.296,    0.296,    0.296,    0.305, "Mat += Mat"                    ])
+  tbl_O1  .append([   0.289,    0.292,    0.292,    0.293,    0.310, "Mat -= Mat"                    ])
+  tbl_O1  .append([   0.782,    0.802,    0.814,    0.831,    0.843, "Mat = Mat + Mat"               ])
+  tbl_O1  .append([   0.756,    0.803,    0.805,    0.826,    0.840, "Mat = Mat - Mat"               ])
+  tbl_O1  .append([   0.229,    0.232,    0.232,    0.242,    0.243, "Mat *= Num"                    ])
+  tbl_O1  .append([   0.971,    0.972,    0.973,    0.973,    0.974, "Mat /= Num"                    ])
+  tbl_O1  .append([   0.669,    0.671,    0.671,    0.672,    0.672, "RVec += RVec * Mat"            ])
+  tbl_O1  .append([   0.629,    0.630,    0.630,    0.631,    0.631, "CVec += Mat * CVec"            ])
+#+end_src
+
+[PROFILE BENCHMARK] mat
+make: Leaving directory '/home/glimes/Projects/Mathing'
+make: Entering directory '/home/glimes/Projects/Mathing'
+[RUN BENCHMARK] mat
+
+Benchmarking with N=1000
+All durations reported in ns per element.
+Each matrix uses 8000000 bytes of storage.
+Target time per pass: 5 seconds.
+Target time for run: 30 seconds.
+
+pin: set affinity to cpu 0
+For R=100, T=0.76; want T=5, will use R=657
+
+Benchmark ending after 6 repetitions of the suite;
+Total elapsed time: 33 seconds
+
+#+begin_src python :session :results none
+  #                     min       25%       50%       75%       max   operation                       
+  #                --------  --------  --------  --------  --------   --------------------------------
+  tbl_Og  .append([  10.608,   10.610,   10.614,   10.776,   10.779, "Mat init with rand()"          ])
+  tbl_Og  .append([   0.150,    0.151,    0.151,    0.151,    0.159, "Mat = Mat"                     ])
+  tbl_Og  .append([   0.553,    0.556,    0.557,    0.566,    0.572, "Mat += Mat"                    ])
+  tbl_Og  .append([   0.592,    0.596,    0.597,    0.599,    0.604, "Mat -= Mat"                    ])
+  tbl_Og  .append([   1.058,    1.074,    1.088,    1.102,    1.120, "Mat = Mat + Mat"               ])
+  tbl_Og  .append([   1.096,    1.105,    1.112,    1.126,    1.142, "Mat = Mat - Mat"               ])
+  tbl_Og  .append([   0.536,    0.537,    0.538,    0.538,    0.539, "Mat *= Num"                    ])
+  tbl_Og  .append([   1.398,    1.399,    1.400,    1.401,    1.403, "Mat /= Num"                    ])
+  tbl_Og  .append([   0.851,    0.854,    0.854,    0.855,    0.856, "RVec += RVec * Mat"            ])
+  tbl_Og  .append([   0.688,    0.689,    0.689,    0.690,    0.691, "CVec += Mat * CVec"            ])
+#+end_src
+
+[PROFILE BENCHMARK] mat
+make: Leaving directory '/home/glimes/Projects/Mathing'
+make: Entering directory '/home/glimes/Projects/Mathing'
+[RUN BENCHMARK] mat
+
+Benchmarking with N=1000
+All durations reported in ns per element.
+Each matrix uses 8000000 bytes of storage.
+Target time per pass: 5 seconds.
+Target time for run: 30 seconds.
+
+pin: set affinity to cpu 0
+For R=1000, T=3.45; want T=5, will use R=1448
+
+Benchmark ending after 5 repetitions of the suite;
+Total elapsed time: 30 seconds
+
+#+begin_src python :session :results none
+  #                     min       25%       50%       75%       max   operation                       
+  #                --------  --------  --------  --------  --------   --------------------------------
+  tbl_O2  .append([   2.980,    2.983,    2.984,    2.984,    2.985, "Mat init with rand()"          ])
+  tbl_O2  .append([   0.149,    0.150,    0.151,    0.151,    0.153, "Mat = Mat"                     ])
+  tbl_O2  .append([   0.167,    0.167,    0.168,    0.169,    0.170, "Mat += Mat"                    ])
+  tbl_O2  .append([   0.166,    0.167,    0.167,    0.168,    0.168, "Mat -= Mat"                    ])
+  tbl_O2  .append([   0.689,    0.695,    0.709,    0.717,    0.770, "Mat = Mat + Mat"               ])
+  tbl_O2  .append([   0.688,    0.700,    0.706,    0.711,    0.744, "Mat = Mat - Mat"               ])
+  tbl_O2  .append([   0.125,    0.126,    0.126,    0.132,    0.136, "Mat *= Num"                    ])
+  tbl_O2  .append([   0.487,    0.487,    0.487,    0.488,    0.489, "Mat /= Num"                    ])
+  tbl_O2  .append([   0.341,    0.341,    0.342,    0.343,    0.343, "RVec += RVec * Mat"            ])
+  tbl_O2  .append([   0.622,    0.622,    0.623,    0.623,    0.623, "CVec += Mat * CVec"            ])
+#+end_src
+
+[PROFILE BENCHMARK] mat
+make: Leaving directory '/home/glimes/Projects/Mathing'
+make: Entering directory '/home/glimes/Projects/Mathing'
+[RUN BENCHMARK] mat
+
+Benchmarking with N=1000
+All durations reported in ns per element.
+Each matrix uses 8000000 bytes of storage.
+Target time per pass: 5 seconds.
+Target time for run: 30 seconds.
+
+pin: set affinity to cpu 0
+For R=1000, T=3.50; want T=5, will use R=1430
+
+Benchmark ending after 5 repetitions of the suite;
+Total elapsed time: 30 seconds
+
+#+begin_src python :session :results none
+  #                     min       25%       50%       75%       max   operation                       
+  #                --------  --------  --------  --------  --------   --------------------------------
+  tbl_O3  .append([   2.650,    2.651,    2.651,    2.652,    2.653, "Mat init with rand()"          ])
+  tbl_O3  .append([   0.150,    0.151,    0.152,    0.153,    0.154, "Mat = Mat"                     ])
+  tbl_O3  .append([   0.170,    0.173,    0.174,    0.177,    0.188, "Mat += Mat"                    ])
+  tbl_O3  .append([   0.171,    0.173,    0.174,    0.174,    0.190, "Mat -= Mat"                    ])
+  tbl_O3  .append([   0.685,    0.700,    0.715,    0.736,    0.760, "Mat = Mat + Mat"               ])
+  tbl_O3  .append([   0.703,    0.706,    0.714,    0.726,    0.762, "Mat = Mat - Mat"               ])
+  tbl_O3  .append([   0.125,    0.125,    0.125,    0.126,    0.136, "Mat *= Num"                    ])
+  tbl_O3  .append([   0.486,    0.487,    0.487,    0.487,    0.488, "Mat /= Num"                    ])
+  tbl_O3  .append([   0.341,    0.341,    0.342,    0.343,    0.343, "RVec += RVec * Mat"            ])
+  tbl_O3  .append([   0.621,    0.622,    0.622,    0.623,    0.623, "CVec += Mat * CVec"            ])
+#+end_src
+
+[PROFILE BENCHMARK] mat
+make: Leaving directory '/home/glimes/Projects/Mathing'
+make: Entering directory '/home/glimes/Projects/Mathing'
+[RUN BENCHMARK] mat
+
+Benchmarking with N=1000
+All durations reported in ns per element.
+Each matrix uses 8000000 bytes of storage.
+Target time per pass: 5 seconds.
+Target time for run: 30 seconds.
+
+pin: set affinity to cpu 0
+For R=1000, T=2.91; want T=5, will use R=1721
+
+Benchmark ending after 5 repetitions of the suite;
+Total elapsed time: 31 seconds
+
+#+begin_src python :session :results none
+  #                     min       25%       50%       75%       max   operation                       
+  #                --------  --------  --------  --------  --------   --------------------------------
+  tbl_Ofast.append([   2.319,    2.483,    2.486,    2.487,    2.651, "Mat init with rand()"          ])
+  tbl_Ofast.append([   0.152,    0.153,    0.153,    0.154,    0.155, "Mat = Mat"                     ])
+  tbl_Ofast.append([   0.170,    0.172,    0.175,    0.180,    0.188, "Mat += Mat"                    ])
+  tbl_Ofast.append([   0.171,    0.175,    0.181,    0.186,    0.186, "Mat -= Mat"                    ])
+  tbl_Ofast.append([   0.760,    0.770,    0.783,    0.802,    0.818, "Mat = Mat + Mat"               ])
+  tbl_Ofast.append([   0.730,    0.754,    0.782,    0.796,    0.802, "Mat = Mat - Mat"               ])
+  tbl_Ofast.append([   0.125,    0.126,    0.130,    0.134,    0.135, "Mat *= Num"                    ])
+  tbl_Ofast.append([   0.125,    0.128,    0.133,    0.133,    0.133, "Mat /= Num"                    ])
+  tbl_Ofast.append([   0.343,    0.345,    0.349,    0.349,    0.350, "RVec += RVec * Mat"            ])
+  tbl_Ofast.append([   0.306,    0.307,    0.309,    0.310,    0.310, "CVec += Mat * CVec"            ])
+#+end_src
+
+[PROFILE BENCHMARK] mat
+make: Leaving directory '/home/glimes/Projects/Mathing'
 
 ** Column Headers
 
@@ -211,7 +402,7 @@ Insert "benchmarks.log" here after running some benchmarks.
 #+begin_src python :session :results none
 
   def print_relative_time(dmap, oporder, tnames, ref):
-      print()
+      print("")
       print(f"Time relative to {ref} (smaller is better):")
 
       if ref not in tnames:
@@ -238,6 +429,7 @@ Insert "benchmarks.log" here after running some benchmarks.
               [median_for_name(dmap_op, name, refdata)
                for name in tnames])
           print(f"| {op:32} | {strs} |")
+
 #+end_src
 
 *** def inv_median_for_name(dmap_op, name, refdata):
@@ -327,12 +519,134 @@ Insert "benchmarks.log" here after running some benchmarks.
 #+end_src
 
 #+RESULTS:
-: 
-: Time relative to Og (smaller is better):
-: | operation                        |       O0 |       O1 |       Og |       O2 |       O3 |    Ofast |
-: |----------------------------------|----------|----------|----------|----------|----------|----------|
-: 
-: Speed relative to Og (larger is better):
-: | operation                        |       O0 |       O1 |       Og |       O2 |       O3 |    Ofast |
-: |----------------------------------|----------|----------|----------|----------|----------|----------|
+#+begin_example
+
+Time relative to Og (smaller is better):
+| operation                        |       O0 |       O1 |       Og |       O2 |       O3 |    Ofast |
+|----------------------------------|----------|----------|----------|----------|----------|----------|
+| Mat init with rand()             |     1.31 |     0.25 |     1.00 |     0.28 |     0.25 |     0.23 |
+| Mat = Mat                        |     1.04 |     0.98 |     1.00 |     1.00 |     1.01 |     1.01 |
+| Mat += Mat                       |     3.15 |     0.53 |     1.00 |     0.30 |     0.31 |     0.31 |
+| Mat -= Mat                       |     2.95 |     0.49 |     1.00 |     0.28 |     0.29 |     0.30 |
+| Mat = Mat + Mat                  |     1.95 |     0.75 |     1.00 |     0.65 |     0.66 |     0.72 |
+| Mat = Mat - Mat                  |     1.89 |     0.72 |     1.00 |     0.63 |     0.64 |     0.70 |
+| Mat *= Num                       |     2.93 |     0.43 |     1.00 |     0.23 |     0.23 |     0.24 |
+| Mat /= Num                       |     1.13 |     0.70 |     1.00 |     0.35 |     0.35 |     0.10 |
+| RVec += RVec * Mat               |     3.14 |     0.79 |     1.00 |     0.40 |     0.40 |     0.41 |
+| CVec += Mat * CVec               |     3.85 |     0.91 |     1.00 |     0.90 |     0.90 |     0.45 |
+
+Speed relative to Og (larger is better):
+| operation                        |       O0 |       O1 |       Og |       O2 |       O3 |    Ofast |
+|----------------------------------|----------|----------|----------|----------|----------|----------|
+| Mat init with rand()             |     0.76 |     4.00 |     1.00 |     3.56 |     4.00 |     4.27 |
+| Mat = Mat                        |     0.96 |     1.02 |     1.00 |     1.00 |     0.99 |     0.99 |
+| Mat += Mat                       |     0.32 |     1.88 |     1.00 |     3.32 |     3.20 |     3.18 |
+| Mat -= Mat                       |     0.34 |     2.04 |     1.00 |     3.57 |     3.43 |     3.30 |
+| Mat = Mat + Mat                  |     0.51 |     1.34 |     1.00 |     1.53 |     1.52 |     1.39 |
+| Mat = Mat - Mat                  |     0.53 |     1.38 |     1.00 |     1.58 |     1.56 |     1.42 |
+| Mat *= Num                       |     0.34 |     2.32 |     1.00 |     4.27 |     4.30 |     4.14 |
+| Mat /= Num                       |     0.89 |     1.44 |     1.00 |     2.87 |     2.87 |    10.53 |
+| RVec += RVec * Mat               |     0.32 |     1.27 |     1.00 |     2.50 |     2.50 |     2.45 |
+| CVec += Mat * CVec               |     0.26 |     1.09 |     1.00 |     1.11 |     1.11 |     2.23 |
+
+Nanoseconds per element for Mat init with rand():
+| min      | 25%      | 50%      | 75%      | max      |          |
+|----------|----------|----------|----------|----------|----------|
+|   13.731 |   13.838 |   13.921 |   13.926 |   13.929 | O0       |
+|    2.649 |    2.651 |    2.653 |    2.816 |    2.817 | O1       |
+|   10.608 |   10.610 |   10.614 |   10.776 |   10.779 | Og       |
+|    2.980 |    2.983 |    2.984 |    2.984 |    2.985 | O2       |
+|    2.650 |    2.651 |    2.651 |    2.652 |    2.653 | O3       |
+|    2.319 |    2.483 |    2.486 |    2.487 |    2.651 | Ofast    |
+
+Nanoseconds per element for Mat = Mat:
+| min      | 25%      | 50%      | 75%      | max      |          |
+|----------|----------|----------|----------|----------|----------|
+|    0.154 |    0.154 |    0.157 |    0.157 |    0.161 | O0       |
+|    0.147 |    0.148 |    0.148 |    0.149 |    0.150 | O1       |
+|    0.150 |    0.151 |    0.151 |    0.151 |    0.159 | Og       |
+|    0.149 |    0.150 |    0.151 |    0.151 |    0.153 | O2       |
+|    0.150 |    0.151 |    0.152 |    0.153 |    0.154 | O3       |
+|    0.152 |    0.153 |    0.153 |    0.154 |    0.155 | Ofast    |
+
+Nanoseconds per element for Mat += Mat:
+| min      | 25%      | 50%      | 75%      | max      |          |
+|----------|----------|----------|----------|----------|----------|
+|    1.746 |    1.752 |    1.754 |    1.758 |    1.761 | O0       |
+|    0.295 |    0.296 |    0.296 |    0.296 |    0.305 | O1       |
+|    0.553 |    0.556 |    0.557 |    0.566 |    0.572 | Og       |
+|    0.167 |    0.167 |    0.168 |    0.169 |    0.170 | O2       |
+|    0.170 |    0.173 |    0.174 |    0.177 |    0.188 | O3       |
+|    0.170 |    0.172 |    0.175 |    0.180 |    0.188 | Ofast    |
+
+Nanoseconds per element for Mat -= Mat:
+| min      | 25%      | 50%      | 75%      | max      |          |
+|----------|----------|----------|----------|----------|----------|
+|    1.747 |    1.756 |    1.759 |    1.760 |    1.761 | O0       |
+|    0.289 |    0.292 |    0.292 |    0.293 |    0.310 | O1       |
+|    0.592 |    0.596 |    0.597 |    0.599 |    0.604 | Og       |
+|    0.166 |    0.167 |    0.167 |    0.168 |    0.168 | O2       |
+|    0.171 |    0.173 |    0.174 |    0.174 |    0.190 | O3       |
+|    0.171 |    0.175 |    0.181 |    0.186 |    0.186 | Ofast    |
+
+Nanoseconds per element for Mat = Mat + Mat:
+| min      | 25%      | 50%      | 75%      | max      |          |
+|----------|----------|----------|----------|----------|----------|
+|    2.075 |    2.107 |    2.126 |    2.143 |    2.150 | O0       |
+|    0.782 |    0.802 |    0.814 |    0.831 |    0.843 | O1       |
+|    1.058 |    1.074 |    1.088 |    1.102 |    1.120 | Og       |
+|    0.689 |    0.695 |    0.709 |    0.717 |    0.770 | O2       |
+|    0.685 |    0.700 |    0.715 |    0.736 |    0.760 | O3       |
+|    0.760 |    0.770 |    0.783 |    0.802 |    0.818 | Ofast    |
+
+Nanoseconds per element for Mat = Mat - Mat:
+| min      | 25%      | 50%      | 75%      | max      |          |
+|----------|----------|----------|----------|----------|----------|
+|    2.095 |    2.099 |    2.099 |    2.141 |    2.150 | O0       |
+|    0.756 |    0.803 |    0.805 |    0.826 |    0.840 | O1       |
+|    1.096 |    1.105 |    1.112 |    1.126 |    1.142 | Og       |
+|    0.688 |    0.700 |    0.706 |    0.711 |    0.744 | O2       |
+|    0.703 |    0.706 |    0.714 |    0.726 |    0.762 | O3       |
+|    0.730 |    0.754 |    0.782 |    0.796 |    0.802 | Ofast    |
+
+Nanoseconds per element for Mat *= Num:
+| min      | 25%      | 50%      | 75%      | max      |          |
+|----------|----------|----------|----------|----------|----------|
+|    1.570 |    1.576 |    1.576 |    1.583 |    1.587 | O0       |
+|    0.229 |    0.232 |    0.232 |    0.242 |    0.243 | O1       |
+|    0.536 |    0.537 |    0.538 |    0.538 |    0.539 | Og       |
+|    0.125 |    0.126 |    0.126 |    0.132 |    0.136 | O2       |
+|    0.125 |    0.125 |    0.125 |    0.126 |    0.136 | O3       |
+|    0.125 |    0.126 |    0.130 |    0.134 |    0.135 | Ofast    |
+
+Nanoseconds per element for Mat /= Num:
+| min      | 25%      | 50%      | 75%      | max      |          |
+|----------|----------|----------|----------|----------|----------|
+|    1.569 |    1.573 |    1.576 |    1.580 |    1.586 | O0       |
+|    0.971 |    0.972 |    0.973 |    0.973 |    0.974 | O1       |
+|    1.398 |    1.399 |    1.400 |    1.401 |    1.403 | Og       |
+|    0.487 |    0.487 |    0.487 |    0.488 |    0.489 | O2       |
+|    0.486 |    0.487 |    0.487 |    0.487 |    0.488 | O3       |
+|    0.125 |    0.128 |    0.133 |    0.133 |    0.133 | Ofast    |
+
+Nanoseconds per element for RVec += RVec * Mat:
+| min      | 25%      | 50%      | 75%      | max      |          |
+|----------|----------|----------|----------|----------|----------|
+|    2.675 |    2.679 |    2.685 |    2.691 |    2.701 | O0       |
+|    0.669 |    0.671 |    0.671 |    0.672 |    0.672 | O1       |
+|    0.851 |    0.854 |    0.854 |    0.855 |    0.856 | Og       |
+|    0.341 |    0.341 |    0.342 |    0.343 |    0.343 | O2       |
+|    0.341 |    0.341 |    0.342 |    0.343 |    0.343 | O3       |
+|    0.343 |    0.345 |    0.349 |    0.349 |    0.350 | Ofast    |
+
+Nanoseconds per element for CVec += Mat * CVec:
+| min      | 25%      | 50%      | 75%      | max      |          |
+|----------|----------|----------|----------|----------|----------|
+|    2.651 |    2.654 |    2.656 |    2.657 |    2.657 | O0       |
+|    0.629 |    0.630 |    0.630 |    0.631 |    0.631 | O1       |
+|    0.688 |    0.689 |    0.689 |    0.690 |    0.691 | Og       |
+|    0.622 |    0.622 |    0.623 |    0.623 |    0.623 | O2       |
+|    0.621 |    0.622 |    0.622 |    0.623 |    0.623 | O3       |
+|    0.306 |    0.307 |    0.309 |    0.310 |    0.310 | Ofast    |
+#+end_example
 
