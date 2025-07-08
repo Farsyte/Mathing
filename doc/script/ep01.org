@@ -1,0 +1,112 @@
+* Old School Coding 2: Just Mathing Around
+
+** Introduction
+
+Hello, and welcome to Season Two of Old School Coding, where I attempt
+to present some of the methods used to construct computer programs in
+the past.
+
+For this season, I am returning to the idea that pulled me into the
+computer world: the purpose of a Computer is to Compute things.
+
+Numerical Algorithms have always fascinated me, and thinking back,
+most of the fun ones have involved Vectors, Matrices, and Quaternions,
+so the project will center around building representations of those
+objects, then writing code to use them to implement various
+algorithms.
+
+** Defining the Project: Goals
+
+I have some very specific goals in mind for the project, and to make
+sure these do not change, I wrote them into the README.md file. The
+priorities for this project are, in order:
+
+  1. The results are correct.
+  2. The code is understandable.
+  3. The code is performant.
+
+We can address the first with automated testing, which has to pass
+before changes are sent to the master branch.
+
+The second will depend on properly reviewing code changes before
+accepting them into the main branch.
+
+The third will again depend on manual evaluation, supported by the
+automation of benchmarking and profiling.
+
+** Defining the Project
+
+Since this is called Old School Coding we will be looking back in
+time a bit for our tool selection.
+
+*** Editor: Emacs and/or VI
+
+I will be mostly using emacs when working on this project, with
+casual use of vi from time to time. I will not be cranking up any
+of the various Integrated Development Environments, and my emacs
+configuration is not set up to provide IDE-style tools.
+
+I will be running builds from within emacs (which allows me to quickly
+visit the sources of error messages), and may or may not be cranking
+up a debugger within emacs.
+
+*** Language: C++03
+
+The 2011 C++ Standard introduced a substantial modernization of the
+language, so I want to go back before that. This project will be
+restricted to using the 2003 version of the standard.
+
+Not having a number of C++11 facilities handy will constrain the
+design in some ways, which should make this interesting.
+
+*** Compiler: GCC
+
+In a move that surprises nobody, I will be using gcc for this
+project. While clang works perfectly well up to a point, my
+tooling is set up to use gcov for profiling.
+
+However, I will be using clang-indent to enforce style.
+
+*** Build System: Make
+
+This project will use make to control the build process, as it is
+the only build system that I am able to set up to manage a project of
+arbitrary organization. In particular, I will not be using an
+Integrated Development Environment (all of which seem to have Strong
+Opinions about project organization).
+
+*** File Organization
+
+What we are building here is a library, which means we will need a
+collection of headers to be included by clients; source files that
+are compiled into the library binary; and source files that are
+compiled to do automated testing.
+
+This gives us our top level organization:
+
+- Customary README.org, LICENSE, and similar files.
+- The buildtools directory containing ad-hoc build tooling.
+- The doc directory containing for documentation.
+- The source directory containing project sources.
+
+The build system will create output and result directories
+to contain intermediate and final outputs.
+
+**** Source Organization
+
+Within the source tree, the project divides source files
+into three subdirectories.
+
+- The include subdirectory has all the header files.
+- The lib subdirectory has sources for library objects.
+- The tests subdirectory has sources for test programs.
+
+The initial plan is for the bulk of the code to be present in the
+header files as inline templates, allowing the data type of the scalar
+elements to be specified at compile time.
+
+** Seeding the Project
+
+Let's jump right in with a project tree that is all set up and ready
+to accept some code.
+
